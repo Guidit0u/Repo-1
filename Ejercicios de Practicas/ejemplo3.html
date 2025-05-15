@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora de edad</title>
+</head>
+<body>
+  <h1>Calculadora de edad</h1>
+
+  <label for="nacimiento">Fecha de nacimiento:</label>
+  <input type="date" id="nacimiento">
+  <br><br>
+
+  <button id="calcular">Calcular edad</button>
+  <button id="cumple">¿Cuántos días para tu próximo cumpleaños?</button>
+
+  <p id="resultadoEdad"></p>
+  <p id="resultadoCumple"></p>
+
+  <h2>Historial (últimos 5)</h2>
+  <ul id="historial"></ul>
+
+  <script>
+    let historial = [];
+
+    function calcularEdadExacta(fechaNacimiento) {
+      const hoy = new Date();
+      const nacimiento = new Date(fechaNacimiento);
+      
+      let edad = hoy.getFullYear() - nacimiento.getFullYear();
+      const mes = hoy.getMonth() - nacimiento.getMonth();
+      const dia = hoy.getDate() - nacimiento.getDate();
+
+      if (mes < 0 || (mes === 0 && dia < 0)) {
+        edad--;
+      }
+
+      if (edad < 0) {
+        return "La fecha de nacimiento no puede ser del futuro.";
+      } else if (edad > 120) {
+        return "¿Estás seguro de esa fecha?";
+      } else {
+        return `Tienes exactamente ${edad} años.`;
+      }
+    }
+
+    function calcularDiasParaCumple(fechaNacimiento) {
+      const hoy = new Date();
+      const nacimiento = new Date(fechaNacimiento);
+      const proximoCumple = new Date(hoy.getFullYear(), nacimiento.getMonth(), nacimiento.getDate());
+
+      if (proximoCumple < hoy) {
+        proximoCumple.setFullYear(hoy.getFullYear() + 1);
+      }
+
+      const diff = proximoCumple - hoy;
+      const diasRestantes = Math.ceil(diff / (1000 * 60 * 60 * 24));
+
+      return `Faltan ${diasRestantes} días para tu próximo cumpleaños.`;
+    }
+
+    function actualizarHistorial(fecha) {
+      historial.unshift(fecha);
+      if (historial.length > 5) {
+        historial.pop();
+      }
+
+      const lista = document.getElementById("historial");
+      lista.innerHTML = '';
+      historial.forEach(fecha => {
+        const li = document.createElement("li");
+        li.textContent = fecha;
+        lista.appendChild(li);
+      });
+    }
+
+    document.getElementById("calcular").addEventListener("click", () => {
+      const fecha = document.getElementById("nacimiento").value;
+      if (!fecha) return;
+
+      const resultado = calcularEdadExacta(fecha);
+      document.getElementById("resultadoEdad").textContent = resultado;
+
+      actualizarHistorial(fecha);
+    });
+
+    document.getElementById("cumple").addEventListener("click", () => {
+      const fecha = document.getElementById("nacimiento").value;
+      if (!fecha) return;
+
+      const resultado = calcularDiasParaCumple(fecha);
+      document.getElementById("resultadoCumple").textContent = resultado;
+    });
+  </script>
+</body>
+</html>

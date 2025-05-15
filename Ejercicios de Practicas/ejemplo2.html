@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interaccion con JavaScript</title>
+</head>
+<body>
+    <h1>Interaccion con JavaScript</h1>
+
+    <button id="BotonPrincipal">Haz click aqui</button>
+    <p id="resultado">Esperando click...</p>
+
+    <button id="BotonTamaño">Sorpresa...</button>
+    <p id="contadorClicks"> Clicks: 0</p>
+
+    <button id="BotonReset">Reiniciar</button>
+
+    <script>
+        const boton = document.getElementById("BotonPrincipal");
+        const texto = document.getElementById("resultado");
+        const incremento = document.getElementById("BotonTamaño");
+        const contadorTexto = document.getElementById("contadorClicks");
+        const reset = document.getElementById("BotonReset");
+
+        let contador = 0;
+        const originalSize = 16;
+        let size = originalSize;
+
+        boton.addEventListener("click", function(){
+            texto.textContent = "¡Has hecho click!"
+            texto.style.color = "blue";
+            texto.style.fontWeight = "bold"
+        });
+
+        incremento.addEventListener("click", function(){
+            contador++;
+            size += 2;
+
+            incremento.style.fontSize = size + "px";
+            contadorTexto.textContent = `Clicks: ${contador}`
+        })
+
+        reset.addEventListener("click", function() {
+            contador = 0;
+            size = originalSize;
+            incremento.style.fontSize = size + "px";
+            contadorTexto.textContent = "Clicks: 0";
+
+            texto.textContent = "Esperando click...";
+            texto.style.color = "black";
+            texto.style.fontWeight = "normal";
+        });
+    </script>
+</body>
+</html>
