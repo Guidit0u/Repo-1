@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ordenar Arreglo</title>
+</head>
+<body>
+    <h2>Ingrese 10 valores numéricos</h2>
+    <div id="inputs"></div>
+    <button onclick="cargarValores()">Cargar valores</button>
+    <br><br>
+    <div id="opciones" style="display:none;">
+        <p>Elija entre las dos opciones:</p>
+        <button onclick="ordenar(1)">1 - Mayor a menor</button>
+        <button onclick="ordenar(2)">2 - Menor a mayor</button>
+    </div>
+    <p id="resultado"></p>
+
+    <script>
+        let valores = new Array(10);
+        let eleccion;
+
+        const inputsDiv = document.getElementById("inputs");
+        for (let i = 0; i < 10; i++) {
+            const input = document.createElement("input");
+            input.type = "number";
+            input.id = "valor" + i;
+            inputsDiv.appendChild(document.createTextNode(`Valor ${i + 1}: `));
+            inputsDiv.appendChild(input);
+            inputsDiv.appendChild(document.createElement("br"));
+        }
+
+        function cargarValores() {
+            for (let i = 0; i < 10; i++) {
+                let valor = parseFloat(document.getElementById("valor" + i).value);
+                if (isNaN(valor)) {
+                    alert("Todos los campos deben tener valores numéricos.");
+                    return;
+                }
+                valores[i] = valor;
+            }
+            document.getElementById("opciones").style.display = "block";
+        }
+
+        function ordenar(opcion) {
+            eleccion = opcion;
+
+            if (eleccion === 1) {
+                
+                for (let a = 0; a < 10; a++) {
+                    for (let b = 0; b < 10; b++) {
+                        if (valores[a] < valores[b]) {
+                            let temp = valores[a];
+                            valores[a] = valores[b];
+                            valores[b] = temp;
+                        }
+                    }
+                }
+            } else if (eleccion === 2) {
+                
+                for (let a = 0; a < 10; a++) {
+                    for (let b = 0; b < 10; b++) {
+                        if (valores[a] > valores[b]) {
+                            let temp = valores[a];
+                            valores[a] = valores[b];
+                            valores[b] = temp;
+                        }
+                    }
+                }
+            } else {
+                document.getElementById("resultado").textContent = "Elección Inválida.";
+                return;
+            }
+
+            
+            let salida = "Valores ordenados:\n";
+            for (let r = 0; r < 10; r++) {
+                salida += valores[r] + "\n";
+            }
+            document.getElementById("resultado").textContent = salida;
+        }
+    </script>
+</body>
+</html>

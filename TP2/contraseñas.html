@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Verificación de Contraseña</title>
+</head>
+<body>
+    <h2>Ingresa tu contraseña</h2>
+    <input type="password" id="psw">
+    <button id="comprobarPsw">Ingresar</button>
+    <p id="mensaje"></p>
+
+    <script>
+        var contador = 0;
+        var contraseña = "1234";
+        var valorIngresado;
+
+        document.getElementById("comprobarPsw").onclick = function() {
+            valorIngresado = document.getElementById("psw").value;
+
+            if (valorIngresado === contraseña) {
+                document.getElementById("mensaje").textContent = "Acceso Otorgado";
+                document.getElementById("comprobarPsw").disabled = true;
+            } else {
+                contador++;
+                if (contador < 3) {
+                    document.getElementById("mensaje").textContent = "Contraseña Incorrecta. Vuelva a ingresarla:";
+                } else {
+                    document.getElementById("mensaje").textContent = "Acceso Denegado";
+                    document.getElementById("comprobarPsw").disabled = true;
+                }
+            }
+
+            document.getElementById("psw").value = "";
+        };
+    </script>
+</body>
+</html>
